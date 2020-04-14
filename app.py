@@ -13,7 +13,7 @@
 
 # import flask dependencies
 from flask import Flask,json,request,make_response,render_template
-#import requests
+import requests
 
 # initialize the flask app
 app = Flask(__name__)
@@ -46,7 +46,7 @@ def corona_api_calling(req):
     parameters = resultval.get("parameters")
     countrycode = parameters.get("countryname")
     countryname = countrycode.get("name")
-    r = request.get('https://api.covid19api.com/live/country/'+countryname)
+    r = requests.get('https://api.covid19api.com/live/country/'+countryname)
     #print('https://api.covid19api.com/live/country/'+countryname)
     k= r.json()
     Confirmed_Cases = str(k[0]['Confirmed'])
