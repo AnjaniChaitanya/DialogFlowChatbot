@@ -12,7 +12,7 @@
 
 
 # import flask dependencies
-from flask import Flask,json,request,make_response
+from flask import Flask,json,request,make_response,render_template
 import requests
 
 # initialize the flask app
@@ -21,8 +21,9 @@ app = Flask(__name__)
 # default route
 @app.route('/')
 
-def index():
-    return 'Hello World index!'
+def home():
+    return render_template('index.html')
+    #return 'Hello World index!'
 
 
 
