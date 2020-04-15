@@ -13,7 +13,9 @@
 
 # import flask dependencies
 from flask import Flask,json,request,make_response,render_template
+from firebase import firebase
 import requests
+
 
 # initialize the flask app
 app = Flask(__name__)
@@ -25,12 +27,11 @@ def home():
     return render_template('index.html')
     #return 'Hello World index!'
 
-
-
 # create a route for webhook
 @app.route('/webhook',methods=["POST"])
 def webhook():
     req = request.get_json(silent=True,force=True)
+    saveConversation(req)
     print("Request:")
     print(json.dumps(req,indent=4))
     res = corona_api_calling(req)
@@ -40,6 +41,18 @@ def webhook():
     r.headers['Content-Type'] = "application/json"
     return r
 
+def saveConversation(req):
+     resultval = req.get("queryResult")
+     requestconversation = resultval.get("queryText")
+     responseconversation = resultval.get("fulfillmentText")     
+     firebase = firebase.FirebaseApplication('https://covchatbotdata.firebaseio.com/', None)
+     print(firebase)
+     data =  { 'RequestedText': requestconversation,
+               'ResponseText': responseconversation
+             }
+     result = firebase.post('/python-example-f6d0b/Students/',data)
+     print(result)
+    
 
 def corona_api_calling(req):
     resultval = req.get("queryResult")
@@ -47,7 +60,6 @@ def corona_api_calling(req):
     countrycode = parameters.get("countryname")
     countryname = countrycode.get("name")
     r = requests.get('https://api.covid19api.com/live/country/'+countryname)
-    #print('https://api.covid19api.com/live/country/'+countryname)
     k= r.json()
     Confirmed_Cases = str(k[0]['Confirmed'])
     Recovered_Cases = str(k[0]['Recovered'])
