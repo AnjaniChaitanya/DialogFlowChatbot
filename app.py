@@ -50,7 +50,7 @@ def saveConversation(req):
      data =  { 'RequestedText': requestconversation,
                'ResponseText': responseconversation
              }
-     result = firebase.post('/python-example-f6d0b/Students/',data)
+     result = firebase.post('/chatbot-conversation/conv/',data)
      print(result)
      r=make_response(result)
      return r
