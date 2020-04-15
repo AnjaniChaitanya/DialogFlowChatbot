@@ -31,22 +31,27 @@ def home():
 @app.route('/webhook',methods=["POST"])
 def webhook():
     req = request.get_json(silent=True,force=True)
-    saveConversation(req)
     print("Request:")
     print(json.dumps(req,indent=4))
-    res = corona_api_calling(req)
-    res = json.dumps(res,indent=4)
-    print(res)
-    r=make_response(res)
-    r.headers['Content-Type'] = "application/json"
-    return r
+    resultval = req.get("queryResult")
+    actionval = resultval.get("action")
+    print(actionval)
+    if (actionval=="userdetailsdata"):
+       res = corona_api_calling(req)
+       res = json.dumps(res,indent=4)
+       print(res)
+       r=make_response(res)
+       r.headers['Content-Type'] = "application/json"
+       return r
+    res = saveConversation(req)
+    return res
 
 def saveConversation(req):
      resultval = req.get("queryResult")
      requestconversation = resultval.get("queryText")
      responseconversation = resultval.get("fulfillmentText")     
-     firebaseval = firebase.FirebaseApplication('https://covchatbotdata.firebaseio.com/', None)
-     print(firebaseval)
+     firebase = firebase.FirebaseApplication('https://covchatbotdata.firebaseio.com/', None)
+     print(firebase)
      data =  { 'RequestedText': requestconversation,
                'ResponseText': responseconversation
              }
