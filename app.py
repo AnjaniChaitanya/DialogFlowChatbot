@@ -13,7 +13,7 @@
 
 # import flask dependencies
 from flask import Flask,json,request,make_response,render_template
-from firebase import firebase
+#from firebase import firebase
 import requests
 
 
@@ -47,6 +47,7 @@ def webhook():
     return res
 
 def saveConversation(req):
+    from firebase import firebase
      resultval = req.get("queryResult")
      requestconversation = resultval.get("queryText")
      responseconversation = resultval.get("fulfillmentText")     
