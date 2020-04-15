@@ -45,13 +45,15 @@ def saveConversation(req):
      resultval = req.get("queryResult")
      requestconversation = resultval.get("queryText")
      responseconversation = resultval.get("fulfillmentText")     
-     firebase = firebase.FirebaseApplication('https://covchatbotdata.firebaseio.com/', None)
-     print(firebase)
+     firebaseval = firebase.FirebaseApplication('https://covchatbotdata.firebaseio.com/', None)
+     print(firebaseval)
      data =  { 'RequestedText': requestconversation,
                'ResponseText': responseconversation
              }
      result = firebase.post('/python-example-f6d0b/Students/',data)
      print(result)
+     r=make_response(result)
+     return r
     
 
 def corona_api_calling(req):
