@@ -29,7 +29,7 @@ python-jwt==2.0.1
 PyYAML==5.3.1
 requests==2.11.1
 requests-toolbelt==0.7.0
-rsa==4.0
+rsa==4.1
 shellescape==3.8.1
 six==1.14.0
 sseclient==0.0.26
